@@ -1,0 +1,32 @@
+{
+  "name": "weather-app",
+  "version": "1.0.0",
+  "description": "app to pull live weather data and display it using a particle system",
+  "main": "server.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaLoSch/Weather-App.git"
+  },
+  "keywords": [
+    "p5",
+    "particle",
+    "weather",
+    "api"
+  ],
+  "author": "Markus Lorenz Schilling",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaLoSch/Weather-App/issues"
+  },
+  "homepage": "https://github.com/MaLoSch/Weather-App#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

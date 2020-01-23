@@ -1,0 +1,21 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.app {
+    display: flex; // we use flexbox to display element
+    flex-direction: row; // child elements are displayed in row
+    height: 100vh; // app takes up 100% vertical space
+
+    & .canvas {
+        flex: 0 1 100%; // the canvas div tries to take up 100% of the parents space, but is allowed to shrink
+        //background-color: green; // debug background color
+    }
+
+    & .info {
+        flex: 0 0 300px; // the info div takes up exactly 300px and is not allowed to shrink or grow
+        //background-color: red; // debug background color
+        //padding: 10px;
+    }
+}
