@@ -1,0 +1,28 @@
+.app {
+    display: flex;
+    flex-direction: column;
+
+    & .canvas {
+        flex: 0 0 100vh;
+        border: 1px solid black;
+        background-color: lightgray;
+    }
+    & .info {
+        & .top {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid red;
+            background-color: lightcoral;
+            & .title {}
+            & .notifications {}
+        }
+        & .weatherData {
+            border: 1px solid blue;
+            background-color: lightcyan;
+        }
+        & .button {
+            border: 1px solid greenyellow;
+            background-color: lightgreen;
+        }
+    }
+}

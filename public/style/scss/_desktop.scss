@@ -1,0 +1,21 @@
+@media only screen and (min-width: 1024px) {
+    .app {
+        flex-direction: row;
+        height: 100vh;
+        & .canvas {
+            flex: 1 1 auto;
+            height: 100vh;
+        }
+        & .info {
+            flex: 0 0 300px;
+            & .top {
+                flex-direction: column;
+                justify-content: flex-start;
+                & .title {}
+                & .notifications {}
+            }
+            & .weatherData {}
+            & .button {}
+        }
+    }
+}
