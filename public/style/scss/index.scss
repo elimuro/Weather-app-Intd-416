@@ -5,17 +5,29 @@
 
 .app {
     display: flex; // we use flexbox to display element
-    flex-direction: row; // child elements are displayed in row
-    height: 100vh; // app takes up 100% vertical space
+    flex-direction: column; // child elements are displayed next to each other
+    height: 100vh;
 
     & .canvas {
         flex: 0 1 100%; // the canvas div tries to take up 100% of the parents space, but is allowed to shrink
-        //background-color: green; // debug background color
+        background-color: green; // debug background color
     }
 
     & .info {
         flex: 0 0 300px; // the info div takes up exactly 300px and is not allowed to shrink or grow
-        //background-color: red; // debug background color
+        background-color: red; // debug background color
         //padding: 10px;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .app {
+
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .app {
+        flex-direction: row; // child elements are displayed next to each other
     }
 }

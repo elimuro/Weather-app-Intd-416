@@ -16,7 +16,7 @@ function preload() {
   let units = 'units=si'; // use the metric system
 
   let API_Call = URL + '/' + key + '/' + lat + ',' + lon + '?' + exclude + '?' + units; // putting the API call together
-  loadJSON('data.json', compileData); // run the API call as an asynchroneous function and call the compileData function once complete
+  //loadJSON('data.json', compileData); // run the API call as an asynchroneous function and call the compileData function once complete
 }
 
 function compileData(data) {

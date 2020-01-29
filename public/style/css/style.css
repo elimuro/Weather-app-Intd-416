@@ -5,14 +5,22 @@
 
 .app {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   height: 100vh;
 }
 .app .canvas {
   flex: 0 1 100%;
+  background-color: green;
 }
 .app .info {
   flex: 0 0 300px;
+  background-color: red;
+}
+
+@media only screen and (min-width: 1024px) {
+  .app {
+    flex-direction: row;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */
