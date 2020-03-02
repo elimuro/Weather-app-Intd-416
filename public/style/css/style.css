@@ -7,20 +7,10 @@
   display: flex;
   flex-direction: column; }
   .app .canvas {
-    flex: 0 0 100vh;
-    border: 1px solid black;
-    background-color: lightgray; }
+    flex: 0 0 100vh; }
   .app .info .top {
     display: flex;
-    flex-direction: column;
-    border: 1px solid red;
-    background-color: lightcoral; }
-  .app .info .weatherData {
-    border: 1px solid blue;
-    background-color: lightcyan; }
-  .app .info .button {
-    border: 1px solid greenyellow;
-    background-color: lightgreen; }
+    flex-direction: column; }
 
 @media only screen and (min-width: 768px) {
   .app .canvas {

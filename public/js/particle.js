@@ -32,8 +32,8 @@ class Particle {
     wait() {
         // init function which sets the starting point of the particle and a random direction
         //console.log("wait mode");
-        let x = (canvasWidth/14) * (this.id%14) + ((canvasWidth/14)/2); // calculate the x position of the particle in the grid based on it's id and the width of the canvas
-        let y = (canvasHeight/14)*(floor(this.id/14)) + ((canvasHeight/14)/2); // calculate the y position of the particle in the grid based in it's id and height of the canvas
+        let x = (appWidth/14) * (this.id%14) + ((appWidth/14)/2); // calculate the x position of the particle in the grid based on it's id and the width of the canvas
+        let y = (appHeight/14)*(floor(this.id/14)) + ((appHeight/14)/2); // calculate the y position of the particle in the grid based in it's id and height of the canvas
 
         this.pos = createVector(x,y); // particles are arranged in a grid (using the previously calculated x and y position)
         this.dir = createVector(0,0); // no direction needed for wait mode
@@ -45,8 +45,8 @@ class Particle {
 
     sun() {
         // function to execute when the weather is sunny which emits the points from the center into a random direction
-        console.log("sun mode");
-        this.pos = createVector(canvasWidth/2, canvasHeight/2); // put particle to 0/0
+        //console.log("sun mode");
+        this.pos = createVector(appWidth/2, appHeight/2); // put particle to 0/0
         this.dir = p5.Vector.random2D(); // create a random direction and store it in 'dir'
         this.dir.mult(25); // multiple 'dir' by 25
         this.pos.add(this.dir); // offset 'pos' of the particle by 'dir' from the center
@@ -61,8 +61,8 @@ class Particle {
 
     rain() {
         // function to execute when the weather is rainy
-        console.log("rain mode");
-        this.pos = createVector(random(0,canvasWidth), random(0,canvasHeight));
+        //console.log("rain mode");
+        this.pos = createVector(random(0,appWidth), random(0,appHeight));
         this.dir = createVector(0, 1);
         this.acc = random(.5,1);
         this.dir.mult(this.acc);
@@ -72,8 +72,8 @@ class Particle {
 
     wind() {
         // function to execute when the weather is windy
-        console.log("wind mode");
-        this.pos = createVector(random(0, canvasWidth), random(0, canvasHeight));
+        //console.log("wind mode");
+        this.pos = createVector(random(0, appWidth), random(0, appHeight));
         this.dir = createVector(1,0);
         this.acc = random(.5, 1);
         this.dir.mult(this.acc);
@@ -98,10 +98,8 @@ class Particle {
 
     show() {
         fill(255); // particles are drawn with a black fill color
+        noStroke(); // particels are drawn without a stroke
         ellipseMode(CENTER); // particles are drawn from the center
-        //push(); // we store the current matrix transformation
-        //translate(p5Canvas.width/2, p5Canvas.height/2); // we move the transformation matrix to the center of the screen
         ellipse(this.pos.x, this.pos.y, this.dia, this.dia); // we draw an ellipse using the particle's position and diameter
-        //pop(); // we restore the previously stored matrix transformation
     }
 }

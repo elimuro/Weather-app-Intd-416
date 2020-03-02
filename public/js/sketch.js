@@ -1,115 +1,95 @@
-let particleArr = []; // var to store a ball object
-let p5Div; // variable to hold the div with the id "p5"
-let p5Canvas; // var to store the p5 canvas in
-let particleNum; // variable to store the number of particles to generate
-let canvasWidth, canvasHeight; // variable to store the current dimension of the canvas
-let currentMode = 0; // variable to store the current weather mode
-let tempP, latP, longP; // variables to store HTML <p> elements
+var appDiv; // variable to store the div containing the app
+var p5AppCanvas; // variable to store the p5 canvas
+var appWidth; // variable to store the width of the div holding the visualization
+var appHeight; // variable to store the height of the div holding the visualization
 
-function preload() {
-  //preload function which is executed before the app runs
-  let URL = 'https://api.darksky.net/forecast'; // variable for the API URL
-  let key = '3a01d9d1f25578775e371597417f92f1'; // variable storing the API key -> needs to be in separate file
-  let lat = '49.7016'; // latitude of requested location
-  let lon = '-123.1558'; // longitude of requested location
-  let exclude = 'exclude=currently,minutely,hourly,alerts,flags'; // exclude current weather, minutely forecast, hourly forecast, alerts, and flags
-  let units = 'units=si'; // use the metric system
+var particles = []; // create an empty array called particles
+var particleNum = 14*14; // var to store the number of particles
 
-  let API_Call = URL + '/' + key + '/' + lat + ',' + lon + '?' + exclude + '?' + units; // putting the API call together
-  //loadJSON('data.json', compileData); // run the API call as an asynchroneous function and call the compileData function once complete
-}
+var currentMode = 0; // variable to store the current visualization mode
 
-function compileData(data) {
-  // function to compile the incoming data which is stored in the local variable 'data'
-  console.log(data); // print the data for debugging purposes
-  for(let day of data.daily.data) { // loop through all data.data entries inside the JSON file
-    console.log(day.icon); // console log the icon of the weather forecast
-  }
-  tempP = select("#temp");
-  latP = select("#lat");
-  longP = select("#long");
-  
-  tempP.html(data.timezone);
-  latP.html(data.latitude);
-  longP.html(data.longitude);
-}
+var cors = 'https://cors-anywhere.herokuapp.com/'; // CORS workaround (https://www.freecodecamp.org/forum/t/solved-having-trouble-getting-response-from-dark-sky-api/100653/5)
+var URI = 'https://api.darksky.net/forecast/'; // base URI for the API call
+var APIkey = '3a01d9d1f25578775e371597417f92f1'; // key for the API call (this will need to be hidden in the future)
+var exclude = 'exclude=minutely,hourly,daily,alerts,flags'; // exluding parts of the API call we don't need
+var units = 'units=si'; // use the metric unit system
+var lat_long = '49.2827,-123.1207'; // latitude and longitude for Vancouver, BC
+
+var API; // variable to store the API string
 
 function setup() {
-  // put setup code here
-  particleNum = sq(14);
-  p5Div = select("#p5"); // store the div with the ID "p5" inside the variable p5Div
-  createNewCanvas(); // function to create canvas
-  for(let i=0; i<particleNum; i++) { // for loop to generate 'particleNum' particles
-    particleArr[i] = new Particle(i); // create a new instance of Particle and store it inside the particle array
-  }
-  smooth(); // draw everything smoothly (anti-aliasing)
-  noStroke(); // draw without outline unless spcifically noted
-  background(0); // set the background to white (because we use transparency in the draw loop)
+    appDiv = select('#p5'); // selecting the div with the ID 'p5' and store it inside appDiv
+    createNewCanvas(); // create a new canvas
+
+    for(let i=0; i<particleNum; i++) { 
+        particles.push(new Particle(i)); // create a new particle and push it into the particles array
+    }
+
+    API = cors + URI + APIkey + '/' + lat_long + '?' + units + '&' + exclude; // put together the API call
+    loadData(); // load the data right away when the program starts
+    setInterval(loadData,120000); // set an interval which allws an API call every two minutes to update the weather data (this is based on 1000 free calls / day)
+    background(0); // set background to black initially, to avoid fade
 }
 
 function draw() {
-  // put drawing code here
-  background(0,5); // set the background to black
-  for(let particle of particleArr) {
-    particle.show(); // call the show function of 'particle'
-    particle.update(); // call the update function of 'particle'
-  }
-}
+    background(0,10); // set background to black with 10/255 opacity
 
-function windowResized() {
-  // function called when the window is resized
-  p5Canvas.remove(); // remove the current canvas
-  createNewCanvas(); // function to create canvas
+    for(let i=0; i<particles.length; i++) { // cycle through all particles
+        particles[i].show(); // call the show function of the current particle
+        particles[i].update(); // call the update function of the current particle
+    }
 }
 
 function createNewCanvas() {
-  canvasWidth = p5Div.size().width; // get the width of p5Div and store it inside canvasWidth
-  canvasHeight = p5Div.size().height; // get the width of p5Div and store it inside canvasHeight
+    appWidth = appDiv.size().width; // store the current width of 'appDiv' in 'appWidth'
+    appHeight = appDiv.size().height; // store the current height of 'appDiv' in 'appHeight'
 
-  p5Canvas = createCanvas(canvasWidth, canvasHeight); // create a new canvas using canvasWidth and canvasHeight
-  p5Canvas.parent("p5"); // assign p5Canvas to p5
+    p5AppCanvas = createCanvas(appWidth,appHeight); // creating a new canvas and storing the result inside p5AppCanvas
+    p5AppCanvas.parent(appDiv); // assign the parent element of 'p5AppCanvas' to 'appDiv'
+}
 
-  setMode();
+function windowResized() {
+    p5AppCanvas.remove(); // remove the current canvas when the window is resized
+    createNewCanvas(); // create a new canvas
+    setMode(currentMode); // call the setMode function
+}
 
-  background(0); // set the background to white (because we use transparency in the draw loop)
+function setMode(newMode) {
+    background(0) // refresh the background to black
+    for(let i=0; i<particles.length; i++) { // cycle through all particles
+        particles[i].setParticleMode(newMode); // call the setParticleMode function after the window has been resized
+    }
 }
 
 function keyPressed() {
-  console.log(keyCode); // 49 = wait
-  switch(keyCode) {
-    case 49:
-      console.log("wait");
-      currentMode = 0;
-      setMode();
-      break;
-    case 50:
-      console.log("sun");
-      currentMode = 1;
-      setMode();
-      break;
-    case 51:
-      console.log("rain");
-      currentMode = 2;
-      setMode();
-      break;
-    case 52:
-      console.log("wind");
-      currentMode = 3;
-      setMode();
-      break;
-    default:
-      console.log("not set");
-      currentMode = 4;
-      setMode();
-      break;
-  }
+    console.log(keyCode); //
+    if(keyIsDown(49)) {
+        currentMode = 0; // wait mode
+    } else if (keyIsDown(50)) {
+        currentMode = 1; // wait mode
+    } else if (keyIsDown(51)) {
+        currentMode = 2; // wait mode
+    } else if (keyIsDown(52)) {
+        currentMode = 3; // wait mode
+    } else { 
+        currentMode = 0; // wait mode
+    }
+    setMode(currentMode); // update particles with currentMode
 }
 
-function setMode() {
-  background(0);
-  
-  for(let particle of particleArr) {
-    // set new mode for particles
-    particle.setParticleMode(currentMode);
-  }
+function loadData() {
+    loadJSON(API, gotData, error); // make API call and provide callback function
+}
+
+function gotData(d) {
+    let weather = d.currently.icon; // read the current weather and store it inside weather (clear-day, clear-night, rain, snow, sleet, wind, fog, cloudy, partly-cloudy-day, or partly-cloudy-night)
+    if (weather == 'cloudy') {
+        setMode(1);
+    } else {
+        setMode(0);
+    }
+}
+
+function error(e) {
+    console.log(e);
 }
