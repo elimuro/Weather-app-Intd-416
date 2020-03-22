@@ -3,20 +3,20 @@ var p5AppCanvas; // variable to store the p5 canvas
 var appWidth; // variable to store the width of the div holding the visualization
 var appHeight; // variable to store the height of the div holding the visualization
 
-var cors = "https://cors-anywhere.herokuapp.com/";
-var APIkey = '<YOUR API KEY HERE';
-var exclude = "exclude=minutely,hourly,daily,alerts,flags";
-var units = "units=si" // use the metric system
-var lat_long = "49.267123,-123.094782";
-var URL = 'https://api.darksky.net/forecast/';
-var API;
+var cors = "https://cors-anywhere.herokuapp.com/"; // work around to get darksky working from our app
+var APIkey = 'YOUR API KEY HERE'; // your api key from dark sky
+var exclude = "exclude=minutely,hourly,daily,alerts,flags"; // exclude some data that we dont need
+var units = "units=si" // use the metric system 
+var lat_long = "49.267123,-123.094782"; // long and lat for Vancouver
+var URL = 'https://api.darksky.net/forecast/'; // bas url for the API call
+var API; // variable for the full  api string 
 
-var button;
+var button; // variable for our p5 button and input field
 var input;
 
-var red = 0;
+var red = 0; // variable to we can change the background colour with data later 
 
-let x = 320;
+let x = 320; // ball stuff
 let y = 180;
 let xspeed = 5;
 let yspeed = 2;
@@ -31,16 +31,16 @@ function setup() {
     createNewCanvas(); // create a new canvas
     background(0); // set background to black initially, to avoid fade
     API = cors + URL + APIkey + '/' + lat_long + '?' + units + '&' + exclude; // put together the API call
-    loadData();
-    setInterval(loadData, 120000);
+    loadData(); // load the data when the program starts
+    setInterval(loadData, 120000); // execute load data on a timer (in milliseconds)
 
-    button = createButton("Load Data"); // our button
-    button.mousePressed(loadData);
-    button.parent("sidebar");
+    button = createButton("Load Data"); // create p5 button and speficfy the text inside it
+    button.mousePressed(loadData); // what happens when the mouse presses the button
+    button.parent("sidebar"); // where (what container) to draw the button
 
-    input = createInput(); //input
-    input.value(lat_long)
-    input.parent("sidebar");
+    input = createInput(); // create p5 input field
+    input.value(lat_long) // intialize the field with some data, in this case the long and lat for Vancouver
+    input.parent("sidebar"); //where (what container) to draw the button
 
 
 }
@@ -97,8 +97,6 @@ function gotData(d){
     xspeed = d.currently.windSpeed * 5;
 
     r = d.currently.humidity * 20;
-
-
     red = map(d.currently.temperature, -30, 30, 0, 255);
 
 
