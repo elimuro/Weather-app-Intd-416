@@ -96,7 +96,6 @@ function gotData(d){
     document.getElementById("summarySpan").textContent = d.currently.summary;
     xspeed = d.currently.windSpeed * 5;
 
-
     r = d.currently.humidity * 20;
 
 
