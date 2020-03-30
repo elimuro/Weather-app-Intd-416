@@ -29,7 +29,7 @@ function setup() {
     appDiv = select('#p5'); // selecting the div with the ID 'p5' and store it inside appDiv
     createNewCanvas(); // create a new canvas
     background(0); // set background to black initially, to avoid fade
-    API = cors + URL + APIkey + '/' + lat + "," + long + '?' + units + '&' + exclude; // put together the API call
+    API = URL + APIkey + '/' + lat + "," + long + '?' + units + '&' + exclude; // put together the API call
     loadData();
     setInterval(loadData, 120000);
 
@@ -81,7 +81,7 @@ function draw() {
 
 
     
-    API = cors + URL + APIkey + '/' + lat + "," + long + '?' + units + '&' + exclude; // put together the API call with updated input values from our text field
+    API = URL + APIkey + '/' + lat + "," + long + '?' + units + '&' + exclude; // put together the API call with updated input values from our text field
 
 
 
