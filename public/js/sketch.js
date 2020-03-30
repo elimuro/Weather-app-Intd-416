@@ -29,7 +29,7 @@ function setup() {
     appDiv = select('#p5'); // selecting the div with the ID 'p5' and store it inside appDiv
     createNewCanvas(); // create a new canvas
     background(0); // set background to black initially, to avoid fade
-    API = URL + APIkey + '/' + lat + "," + long + '?' + units + '&' + exclude; // put together the API call
+    API = cors + URL + APIkey + '/' + lat + "," + long + '?' + units + '&' + exclude; // put together the API call
     loadData();
     setInterval(loadData, 120000);
 
@@ -53,16 +53,11 @@ function setup() {
     sliderLong.value(long);
     sliderLong.parent("sidebar");
 
-
-
-
-
 }
 
 function draw() {
 
     background(red, 0, 0, humid); // set background to black with 10/255 opacity
-
 
     lat = sliderLat.value(); // put the slider values into the lat & long variables
     long = sliderLong.value();
@@ -77,13 +72,8 @@ function draw() {
         ballArray[i].update();
 
     }
-
-
-
     
-    API = URL + APIkey + '/' + lat + "," + long + '?' + units + '&' + exclude; // put together the API call with updated input values from our text field
-
-
+    API = cors + URL + APIkey + '/' + lat + "," + long + '?' + units + '&' + exclude; // put together the API call with updated input values from our text field
 
 }
 
@@ -106,7 +96,6 @@ function loadData() {
 
 function gotData(d) {
 
-
     let icon = d.currently.icon; 
 
     switch (icon) {
@@ -124,8 +113,6 @@ function gotData(d) {
             break;
     }
 
-
-
     console.log(d);
     //do with stuff with the data here
 
@@ -135,12 +122,8 @@ function gotData(d) {
     document.getElementById("humiditySpan").textContent = d.currently.humidity;
     document.getElementById("summarySpan").textContent = d.currently.summary;
 
-
     humid = d.currently.humidity * 20;
-
-
     red = map(d.currently.temperature, -30, 30, 0, 255);
-    
     temp = d.currently.temperature;
 
   
